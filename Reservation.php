@@ -3,7 +3,10 @@ session_start();
 include 'connectDataBaseLocalhost.php';
 
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('please login first');window.location.href='loginRegForm.html';</script>";
+    echo '<html><body>';
+    echo '<p>please login first</p>';
+    echo '<a href="loginRegForm.html">Go to login page</a>';
+    echo '</body></html>';
     exit;
 }
 
@@ -15,14 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selectedCity'])) {
     $stmt->bind_param("ss", $selectedCity, $username);
     
     if ($stmt->execute()) {
-        echo 'update successfully';
+        echo '<html><body>';
+        echo '<p>update successfully</p>';
+        echo '<a href="hometowns.html">Go to hometowns page</a>';
+        echo '</body></html>';
     } else {
-        echo 'update failed' . $conn->error;
+        echo '<html><body>';
+        echo '<p>update failed: '. $conn->error.'</p>';
+        echo '<a href="hometowns.html">Go to hometowns page</a>';
+        echo '</body></html>';
     }
     
     $stmt->close();
 } else {
-    echo 'invalid request';
+    echo '<html><body>';
+    echo '<p>invalid request</p>';
+    echo '<a href="hometowns.html">Go to hometowns page</a>';
+    echo '</body></html>';
 }
 
 $conn->close();
