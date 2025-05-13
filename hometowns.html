@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Hometowns</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <table border="1" style="width: 100%;">
+        <tr class="NavigationBar">
+            <td><a href="hometowns.html" class="linking">Our Hometowns</a></td>
+            <td><a href="loginRegForm.html" class="linking">Login/Register</a></td>
+            <td><a href="aboutus.html" class="linking">About Us</a></td>
+        </tr>
+        <tr class="select_hometown">
+            <td colspan="3">
+                <h3>Hometown Form</h3>
+                <select name="hometown_select" id="hometown_select" onchange="updateSelectedCity();showHometown()">
+                    <option value="" disabled selected></option>
+                    <option value="HeNan ZhenZhou">HeNan ZhenZhou</option>
+                    <option value="HuNan XiangTan">HuNan XiangTan</option>
+                    <option value="Guangdong Guangzhou">Guangdong Guangzhou</option>
+                    <option value="Guangdong ShenZhen">Guangdong ShenZhen</option>
+                    <option value="Hunan Yiyang">Hunan Yiyang</option>
+                </select>
+                <br>
+                <label for="selectedCity">Your city selected is:</label>
+                <input type="text" id="selectedCity" value="" readonly><br>
+                <form action="Reservation.php" method="POST">
+                    <input type="hidden" name="selectedCity" id="selectedCity">
+                    <button type="submit">Make Reservation</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" id="hometown" style="border: 0px;"></td>
+        </tr>
+        <!-- <div id="outputContainer"></div> -->
+    </table>
+    <script src="hometownIO.js"></script>
+</body>
+
+</html>

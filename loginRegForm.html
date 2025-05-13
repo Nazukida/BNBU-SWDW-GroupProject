@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login and register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <table border="1" style="width: 100%;">
+        <tr class="NavigationBar">
+            <td colspan="2"><a href="hometowns.html" class="linking">Our Hometowns</a></td>
+            <td colspan="2"><a href="loginRegForm.html" class="linking">Login/Register</a></td>
+            <td colspan="2"><a href="aboutus.html" class="linking">About Us</a></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <form action="login.php" method="post" id="loginForm">
+                    <h2>Login Form</h2>
+                    <label for="loginUsername">username:</label><br>
+                    <input type="text" id="loginUsername" name="loginUsername" placeholder="name" value=""><br>
+                    <label for="loginPassword">password:</label><br>
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="••••" value=""><br>
+                    <input type="submit" value="Login">
+                </form>
+            </td>
+            <td colspan="3">
+                <form action="register.php" method="post" id="registerForm">
+                    <h2>Register New Members Form</h2>
+                    <label for="registerUsername">username:</label><br>
+                    <input type="text" id="registerUsername" name="registerUsername" placeholder="New member name"><br>
+                    <label for="registerPassword">password:</label><br>
+                    <input type="password" id="registerPassword" name="registerPassword" placeholder="****"><br>
+                    <label for="confirmPassword">confirm password:</label><br>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="****"><br>
+                    <input type="submit" value="Register">
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
