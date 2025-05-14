@@ -15,7 +15,7 @@ hometowns = [
     {
         Province: "HuNan",
         City: "XiangTan",
-        Photo: "xiangtan.jpg",
+        Photo: "xiangtan.png",
         information: "<li>Mao Zedong's Hometown</li><li>Qi Baishi Memorial Hall</li><li>Yuhuashan Forest Park</li><li>Xiangjiang River Scenic Belt</li>"
     },
     {
@@ -45,16 +45,16 @@ function showHometown() {//显示家乡
     //输出表格
     if (hometown) {
         document.getElementById('hometown').innerHTML = `
-        <div class="hometown-output">
-            <table>
+        <div>
+            <table style="border-collapse: collapse; width: 100%;">
                 <tr>
-                    <td>
+                    <td style="border: 1px solid black; padding: 10px;">
                         <p>${hometown.Province} Attraction:</p>
-                        <ul>
+                        <ul style="margin: 0; padding-left: 20px;">
                             ${hometown.information}
                         </ul>
                     </td>
-                    <td>
+                    <td style="border: 1px solid black; padding: 10px;">
                         <p>Hometown: ${hometown.Province} ${hometown.City}</p>
                         <img src="${hometown.Photo}" alt="${hometown.City}" style="width: 200px; height: 200px;">
                     </td>
