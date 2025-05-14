@@ -1,40 +1,33 @@
 <?php
-session_start();
-include 'connectDataBaseLocalhost.php';
 
-//need to save all data
-$Username = $_POST['registerUsername'];
-$RePwd = $_POST['registerPassword'];
-$conRePwd = $_POST['confirmPassword'];
+include 'connectDataBase.php';
+$user = $_POST["registerUsername"];
+$pwd1 = $_POST["registerPassword"];
+$pwd2 = $_POST["confirmPassword"];
 
-//check two password
-if ($RePwd === $conRePwd) {
-    $sql = "SELECT * FROM touristmem WHERE username = '$Username'";
-    $checkResult = $conn->query($sql);
-    if ($checkResult->num_rows === 0) { //new user
-        $sqlnew = "INSERT INTO touristmem (username, password) VALUES ('$Username', '$RePwd')";
-        if ($conn->query($sqlnew) === TRUE) {
-            echo '<html><body>';
-            echo '<p>register successfully, please login</p>';
-            echo '<a href="loginRegForm.html">Go to login page</a>';
-            echo '</body></html>';
-        } else {
-            echo '<html><body>';
-            echo '<p>register failed: '. $conn->error.'</p>';
-            echo '<a href="loginRegForm.html">Go to registration page</a>';
-            echo '</body></html>';
-        }
-    } else {
-        echo '<html><body>';
-        echo '<p>username already exists</p>';
-        echo '<a href="loginRegForm.html">Go to registration page</a>';
-        echo '</body></html>';
-    }
-} else {
-    echo '<html><body>';
-    echo '<p>two passwords do not match</p>';
-    echo '<a href="loginRegForm.html">Go to registration page</a>';
-    echo '</body></html>';
+
+if($user){
+	$sqlCheck = "SELECT * FROM `touristMem` WHERE `username` = '$user'";
+	$resultCheck = mysqli_query($conn, $sqlCheck);
+	if (mysqli_num_rows($resultCheck) > 0) {
+		echo "This username already exists in the database!";
+		echo "<br> Go back to <a href='loginRegForm.html'> Login_Register_Form </a>";
+		exit;
+	}
+	else{
+		if($pwd1 != $pwd2){
+			echo "you should enter the same password!";
+			echo "<br> Go back to <a href='loginRegForm.html'> Login_Register_Form </a>";
+		}
+		else{
+			$realName = $user . ' Fong';
+			$sql = "INSERT INTO `touristMem` (`mid`, `username`, `password`, `real_name`, `city`) VALUES (NULL, '$user', '$pwd1', '$realName', NULL)";
+            $result = mysqli_query($conn, $sql);
+		    echo "successfully insert!";
+		}
 }
-$conn->close();
+}
+else{
+    echo "name can't be empty!";
+}
 ?>
