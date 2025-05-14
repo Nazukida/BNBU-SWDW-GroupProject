@@ -19,7 +19,7 @@
             <td colspan="3">
                 <h3>Hometown Form</h3>
                 <select name="hometown_select" id="hometown_select" onchange="updateSelectedCity();showHometown()">
-                    <option value="" disabled selected></option>
+                    <option value=""></option>
                     <option value="HeNan ZhenZhou">HeNan ZhenZhou</option>
                     <option value="HuNan XiangTan">HuNan XiangTan</option>
                     <option value="Guangdong Guangzhou">Guangdong Guangzhou</option>
@@ -27,10 +27,10 @@
                     <option value="Hunan Yiyang">Hunan Yiyang</option>
                 </select>
                 <br>
-                <label for="selectedCity">Your city selected is:</label>
-                <input type="text" id="selectedCity" value="" readonly><br>
+                <label for="displaySelectedCity">Your city selected is:</label>
+                <input type="text" id="displaySelectedCity" value="" readonly><br>
                 <form action="Reservation.php" method="POST">
-                    <input type="hidden" name="selectedCity" id="selectedCity">
+                    <input type="hidden" name="selectedCity" id="hiddenSelectedCity">
                     <button type="submit">Make Reservation</button>
                 </form>
             </td>
@@ -38,7 +38,6 @@
         <tr>
             <td colspan="3" id="hometown" style="border: 0px;"></td>
         </tr>
-        <!-- <div id="outputContainer"></div> -->
         <tr>
             <td colspan="3" style="text-align: center;">
                 <h4>If you want to display the city selected by a specific user.</h4>

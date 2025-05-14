@@ -1,7 +1,8 @@
 function updateSelectedCity() {
     const selectElement = document.getElementById('hometown_select');
     const selectedValue = selectElement.value;
-    document.getElementById('selectedCity').value = selectedValue;
+    document.getElementById('displaySelectedCity').value = selectedValue;
+    document.getElementById('hiddenSelectedCity').value = selectedValue;
 }
 
 var hometowns;
@@ -36,13 +37,12 @@ hometowns = [
         Photo: "yiyang.jpg",
         information: "<li>Meishan Cultural Park</li><li>Yiyang Ancient Town</li><li>Xianshan Scenic Area</li><li>Zi River Scenic Area</li>"
     }
-]
+];
 
-function showHometown() {//显示家乡
-    const selectedCity = document.getElementById('hometown_select').value;//获取选择
-    const [province, city] = selectedCity.split(' '); // 分割省份和城市
-    const hometown = hometowns.find(h => h.Province === province && h.City === city); // 查找匹配的家乡信息
-    //输出表格
+function showHometown() {
+    const selectedCity = document.getElementById('hometown_select').value;
+    const [province, city] = selectedCity.split(' ');
+    const hometown = hometowns.find(h => h.Province === province && h.City === city);
     if (hometown) {
         document.getElementById('hometown').innerHTML = `
         <div>
@@ -62,18 +62,6 @@ function showHometown() {//显示家乡
             </table>
         </div>`;
     } else {
-        document.getElementById('hometown').innerHTML = ''; // 清空内容
+        document.getElementById('hometown').innerHTML = '';
     }
 }
-
-// function showHometown() {
-//     const template = `
-//         <div class="hometown-card">
-//             <h3>${hometown.Province} ${hometown.City}</h3>
-//             <img src="${hometown.Photo}">
-//             <ul>${hometown.information}</ul>
-//         </div>
-//     `;
-
-//     document.getElementById('outputContainer').innerHTML = template;
-// }
