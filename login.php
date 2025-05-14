@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connectDataBaseLocalhost.php';
+include 'connectDataBase.php';
 
 $Username = $_POST['loginUsername'];
 $loginPSW = $_POST['loginPassword'];
