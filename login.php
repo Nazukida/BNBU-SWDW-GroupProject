@@ -7,6 +7,12 @@ $loginPSW = $_POST['loginPassword'];
 $sql = "SELECT * FROM touristmem WHERE username = '$Username' AND password = '$loginPSW'";
 $result = mysqli_query($conn, $sql);
 
+if (empty($Username) || empty($loginPSW)) {
+    echo "All fields are required!";
+    echo "<br> Go back to <a href='loginRegForm.html'> Login_Register_Form </a>";
+    exit;
+}
+
 if (mysqli_num_rows($result) > 0) {
     $_SESSION['user'] = $Username;
     $_SESSION['pwd'] = $loginPSW;

@@ -1,6 +1,7 @@
 <?php
 session_start();
-include 'connectDataBaseLocalhost.php';
+// include 'connectDataBaseLocalhost.php';
+include 'connectDataBase.php';
 
 if (!isset($_SESSION['user'])) {
     echo '<html><body>';
