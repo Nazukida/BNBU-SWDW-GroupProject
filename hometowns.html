@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Hometowns</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <table border="1" style="width: 100%;">
         <tr class="NavigationBar">
@@ -18,25 +16,24 @@
         <tr class="select_hometown">
             <td colspan="3">
                 <h3>Hometown Form</h3>
-                <select name="hometown_select" id="hometown_select" onchange="updateSelectedCity();showHometown()">
-                    <option value=""></option>
-                    <option value="HeNan ZhenZhou">HeNan ZhenZhou</option>
-                    <option value="HuNan XiangTan">HuNan XiangTan</option>
-                    <option value="Guangdong Guangzhou">Guangdong Guangzhou</option>
-                    <option value="Guangdong ShenZhen">Guangdong ShenZhen</option>
-                    <option value="Hunan Yiyang">Hunan Yiyang</option>
-                </select>
-                <br>
-                <label for="displaySelectedCity">Your city selected is:</label>
-                <input type="text" id="displaySelectedCity" value="" readonly><br>
-                <form action="Reservation.php" method="POST">
-                    <input type="hidden" name="selectedCity" id="hiddenSelectedCity">
+                <form action="Reservation.php" method="post">
+                    <label for="hometown">Hometown:</label><br>
+                    <select id="hometown" name="hometown" onchange="updateCityDisplay(); showHometownInfo()">
+                        <option value="">Select a city</option>
+                        <option value="HeNan ZhenZhou">HeNan ZhenZhou</option>
+                        <option value="HuNan XiangTan">HuNan XiangTan</option>
+                        <option value="Guangdong Guangzhou">Guangdong Guangzhou</option>
+                        <option value="Guangdong ShenZhen">Guangdong ShenZhen</option>
+                        <option value="Hunan Yiyang">Hunan Yiyang</option>
+                    </select><br><br>
+                    <span>Your city selected is: </span>
+                    <input type="text" id="selectedCity" readonly><br><br>
                     <button type="submit">Make Reservation</button>
                 </form>
             </td>
         </tr>
         <tr>
-            <td colspan="3" id="hometown" style="border: 0px;"></td>
+            <td colspan="3" id="hometownInfo" style="border: 0px;"></td>
         </tr>
         <tr>
             <td colspan="3" style="text-align: center;">
@@ -45,9 +42,7 @@
                 <a href="search.html">Just click here</a>
             </td>
         </tr>
-
     </table>
     <script src="hometownIO.js"></script>
 </body>
-
 </html>

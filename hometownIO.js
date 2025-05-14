@@ -1,12 +1,10 @@
-function updateSelectedCity() {
-    const selectElement = document.getElementById('hometown_select');
+function updateCityDisplay() {
+    const selectElement = document.getElementById('hometown');
     const selectedValue = selectElement.value;
-    document.getElementById('displaySelectedCity').value = selectedValue;
-    document.getElementById('hiddenSelectedCity').value = selectedValue;
+    document.getElementById('selectedCity').value = selectedValue;
 }
 
-var hometowns;
-hometowns = [
+var hometowns = [
     {
         Province: "HeNan",
         City: "ZhenZhou",
@@ -39,13 +37,12 @@ hometowns = [
     }
 ];
 
-function showHometown() {
-    const selectedCity = document.getElementById('hometown_select').value;
+function showHometownInfo() {
+    const selectedCity = document.getElementById('hometown').value;
     const [province, city] = selectedCity.split(' ');
     const hometown = hometowns.find(h => h.Province === province && h.City === city);
     if (hometown) {
-        document.getElementById('hometown').innerHTML = `
-        <div>
+        document.getElementById('hometownInfo').innerHTML = `
             <table style="border-collapse: collapse; width: 100%;">
                 <tr>
                     <td style="border: 1px solid black; padding: 10px;">
@@ -60,8 +57,8 @@ function showHometown() {
                     </td>
                 </tr>
             </table>
-        </div>`;
+        `;
     } else {
-        document.getElementById('hometown').innerHTML = '';
+        document.getElementById('hometownInfo').innerHTML = '';
     }
 }
