@@ -1,6 +1,5 @@
 <?php
 session_start();
-// include 'connectDataBaseLocalhost.php';
 include 'connectDataBase.php';
 
 if (!isset($_SESSION['user'])) {
@@ -15,22 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selectedCity'])) {
     $selectedCity = $_POST['selectedCity'];
     $username = $_SESSION['user'];
     
-    $stmt = $conn->prepare("UPDATE touristmem SET city = ? WHERE username = ?");
-    $stmt->bind_param("ss", $selectedCity, $username);
+    $sql = "UPDATE touristMem SET city = '$selectedCity' WHERE username = '$username'";
     
-    if ($stmt->execute()) {
+    if (mysqli_query($conn, $sql)) {
         echo '<html><body>';
         echo '<p>update successfully</p>';
         echo '<a href="hometowns.html">Go to hometowns page</a>';
         echo '</body></html>';
     } else {
         echo '<html><body>';
-        echo '<p>update failed: '. $conn->error.'</p>';
+        echo '<p>update failed: ' . $conn->error . '</p>';
         echo '<a href="hometowns.html">Go to hometowns page</a>';
         echo '</body></html>';
     }
-    
-    $stmt->close();
 } else {
     echo '<html><body>';
     echo '<p>invalid request</p>';

@@ -4,7 +4,7 @@ include 'connectDataBase.php';
 
 $Username = $_POST['loginUsername'];
 $loginPSW = $_POST['loginPassword'];
-$sql = "SELECT * FROM touristmem WHERE username = '$Username' AND password = '$loginPSW'";
+$sql = "SELECT * FROM touristMem WHERE username = '$Username' AND password = '$loginPSW'";
 $result = mysqli_query($conn, $sql);
 
 if (empty($Username) || empty($loginPSW)) {
