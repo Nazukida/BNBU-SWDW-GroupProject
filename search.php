@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['city'])) {
         // Search users by city
         $city = $_POST['city'];
-        $sql = "SELECT username FROM touristmem WHERE city = '$city'";
+        $sql = "SELECT username FROM touristMem WHERE city = '$city'";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['username'])) {
         // Search city by user
         $username = $_POST['username'];
-        $sql = "SELECT city FROM touristmem WHERE username = '$username'";
+        $sql = "SELECT city FROM touristMem WHERE username = '$username'";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
