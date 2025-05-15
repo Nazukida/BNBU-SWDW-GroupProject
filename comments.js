@@ -1,4 +1,3 @@
-// 如果需要保留 comments.js，可以将其改为一个通用的评论管理库
 function addComment(comments, username, commentText) {
     const newComment = {
         username: username,

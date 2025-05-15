@@ -63,6 +63,13 @@ function showHometownInfo() {
     const [province, city] = selectedCity.split(' ');
     const hometown = hometowns.find(h => h.Province === province && h.City === city);
     if (hometown) {
+        const commentFormHtml = `
+            <form onsubmit="addNewComment(this, '${province}', '${city}')">
+                <input type="text" placeholder="Username" required>
+                <textarea placeholder="Write a comment..." required></textarea>
+                <button type="submit">Add Comment</button>
+            </form>
+        `;
         document.getElementById('hometownInfo').innerHTML = `
             <table style="border-collapse: collapse; width: 100%;">
                 <tr>
@@ -75,92 +82,61 @@ function showHometownInfo() {
                     <td style="border: 1px solid black; padding: 10px;">
                         <p>Hometown: ${hometown.Province} ${hometown.City}</p>
                         <img src="${hometown.Photo}" alt="${hometown.City}" style="width: 200px; height: 200px;">
-                        <button id="showCommentsButton" style="display: block;">View Comments</button>
-                        <div id="commentsContainer" style="display: none; margin-top: 20px;"></div>
+                        <button onclick="toggleComments('${province}', '${city}')">View Comments</button>
+                        <div id="commentsContainer_${province}_${city}" class="hidden">
+                            ${commentFormHtml}
+                        </div>
                     </td>
                 </tr>
             </table>
         `;
-        const showCommentsButton = document.getElementById('showCommentsButton');
-        showCommentsButton.addEventListener('click', () => toggleComments(hometown.comments));
-        initializeComments(hometown.comments);
+        displayComments(hometown.comments, `commentsContainer_${province}_${city}`);
     } else {
         document.getElementById('hometownInfo').innerHTML = '';
     }
 }
 
-function initializeComments(comments) {
-    const commentsContainer = document.getElementById('commentsContainer');
-    const showCommentsButton = document.getElementById('showCommentsButton');
+function toggleComments(province, city) {
+    const commentsContainer = document.getElementById(`commentsContainer_${province}_${city}`);
+    const isHidden = commentsContainer.className.includes('hidden');
+    if (isHidden) {
+        commentsContainer.className = commentsContainer.className.replace('hidden', '');
+    } else {
+        commentsContainer.className += ' hidden';
+    }
+}
 
-    // 创建评论输入表单
-    const commentForm = document.createElement('form');
-    const usernameInput = document.createElement('input');
-    const commentInput = document.createElement('textarea');
-    const submitButton = document.createElement('button');
+function addNewComment(form, province, city) {
+    const hometown = hometowns.find(h => h.Province === province && h.City === city);
+    const username = form[0].value;
+    const commentText = form[1].value;
+    const newComment = {
+        username: username,
+        comment: commentText,
+        timestamp: new Date().toLocaleString()
+    };
+    hometown.comments.push(newComment);
+    displayComments(hometown.comments, `commentsContainer_${province}_${city}`);
+    form[0].value = '';
+    form[1].value = '';
+    return false;
+}
 
-    // 设置用户名输入框
-    usernameInput.type = 'text';
-    usernameInput.placeholder = 'Username';
-    usernameInput.required = true;
-
-    // 设置评论输入框
-    commentInput.placeholder = 'Write a comment...';
-    commentInput.required = true;
-
-    // 设置提交按钮
-    submitButton.type = 'submit';
-    submitButton.textContent = 'Add Comment';
-
-    // 将输入框和按钮添加到表单中
-    commentForm.appendChild(usernameInput);
-    commentForm.appendChild(commentInput);
-    commentForm.appendChild(submitButton);
-
-    // 将表单添加到评论容器中
-    commentsContainer.appendChild(commentForm);
-
-    // 显示评论的函数
-    function displayComments() {
-        commentsContainer.innerHTML = '';
-        comments.forEach((comment, index) => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
+function displayComments(comments, containerId) {
+    let commentsHtml = '';
+    comments.forEach((comment) => {
+        commentsHtml += `
+            <div class="comment">
                 <strong>${comment.username}</strong> - ${comment.comment} ( ${comment.timestamp} )
-            `;
-            commentsContainer.appendChild(commentElement);
-        });
-        commentsContainer.appendChild(commentForm); // 确保表单在评论下方
-    }
-
-    // 切换评论显示状态的函数
-    function toggleComments() {
-        if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
-            commentsContainer.style.display = 'block';
-            displayComments();
-        } else {
-            commentsContainer.style.display = 'none';
-        }
-    }
-
-    // 为查看评论按钮添加点击事件
-    showCommentsButton.addEventListener('click', toggleComments);
-
-    // 为表单添加提交事件
-    commentForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const newComment = {
-            username: usernameInput.value,
-            comment: commentInput.value,
-            timestamp: new Date().toLocaleString()
-        };
-        comments.push(newComment);
-        displayComments();
-        usernameInput.value = '';
-        commentInput.value = '';
+            </div>
+        `;
     });
-
-    // 初始隐藏评论容器
-    commentsContainer.style.display = 'none';
+    const commentFormHtml = `
+        <form onsubmit="addNewComment(this, '${containerId.split('_')[1]}', '${containerId.split('_')[2]}')">
+            <input type="text" placeholder="Username" required>
+            <textarea placeholder="Write a comment..." required></textarea>
+            <button type="submit">Add Comment</button>
+        </form>
+    `;
+    document.getElementById(containerId).innerHTML = commentsHtml + commentFormHtml;
 }
