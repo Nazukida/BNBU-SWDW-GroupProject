@@ -83,26 +83,26 @@ function showHometownInfo() {
                         <p>Hometown: ${hometown.Province} ${hometown.City}</p>
                         <img src="${hometown.Photo}" alt="${hometown.City}" style="width: 200px; height: 200px;">
                         <button onclick="toggleComments('${province}', '${city}')">View Comments</button>
-                        <div id="commentsContainer_${province}_${city}" class="hidden">
+                        <div id="commentsCont_${province}_${city}" class="hidden">
                             ${commentFormHtml}
                         </div>
                     </td>
                 </tr>
             </table>
         `;
-        displayComments(hometown.comments, `commentsContainer_${province}_${city}`);
+        displayComments(hometown.comments, `commentsCont_${province}_${city}`);
     } else {
         document.getElementById('hometownInfo').innerHTML = '';
     }
 }
 
 function toggleComments(province, city) {
-    const commentsContainer = document.getElementById(`commentsContainer_${province}_${city}`);
-    const isHidden = commentsContainer.className.includes('hidden');
+    const commentsCont = document.getElementById(`commentsCont_${province}_${city}`);
+    const isHidden = commentsCont.className.includes('hidden');
     if (isHidden) {
-        commentsContainer.className = commentsContainer.className.replace('hidden', '');
+        commentsCont.className = commentsCont.className.replace('hidden', '');
     } else {
-        commentsContainer.className += ' hidden';
+        commentsCont.className += ' hidden';
     }
 }
 
@@ -116,7 +116,7 @@ function addNewComment(form, province, city) {
         timestamp: new Date().toLocaleString()
     };
     hometown.comments.push(newComment);
-    displayComments(hometown.comments, `commentsContainer_${province}_${city}`);
+    displayComments(hometown.comments, `commentsCont_${province}_${city}`);
     form[0].value = '';
     form[1].value = '';
     return false;
