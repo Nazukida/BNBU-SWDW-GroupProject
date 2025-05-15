@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const commentsContainer = document.getElementById('commentsContainer');
+    const showCommentsButton = document.getElementById('showCommentsButton');
     const commentForm = document.createElement('form');
     const usernameInput = document.createElement('input');
     const commentInput = document.createElement('textarea');
     const submitButton = document.createElement('button');
-    const showCommentsButton = document.getElementById('showCommentsButton');
     let comments = [];
 
     function displayComments() {
@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     showCommentsButton.addEventListener('click', toggleComments);
-
-    displayComments();
 
     usernameInput.type = 'text';
     usernameInput.placeholder = 'Username';

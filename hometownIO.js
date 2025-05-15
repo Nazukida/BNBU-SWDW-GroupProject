@@ -1,3 +1,5 @@
+// hometownIO.js
+
 function updateCityDisplay() {
     const selectElement = document.getElementById('hometown');
     const selectedValue = selectElement.value;
@@ -75,14 +77,101 @@ function showHometownInfo() {
                     <td style="border: 1px solid black; padding: 10px;">
                         <p>Hometown: ${hometown.Province} ${hometown.City}</p>
                         <img src="${hometown.Photo}" alt="${hometown.City}" style="width: 200px; height: 200px;">
-                        <button id="showCommentsButton" style="display: none;">View Comments</button>
+                        <button id="showCommentsButton" style="display: block;">View Comments</button>
                         <div id="commentsContainer" style="display: none; margin-top: 20px;"></div>
                     </td>
                 </tr>
             </table>
         `;
-        document.getElementById('showCommentsButton').style.display = 'block';
+        const showCommentsButton = document.getElementById('showCommentsButton');
+        showCommentsButton.addEventListener('click', () => toggleComments(hometown.comments));
+        initializeComments(hometown.comments);
     } else {
         document.getElementById('hometownInfo').innerHTML = '';
     }
+}
+
+function initializeComments(comments) {
+    const commentsContainer = document.getElementById('commentsContainer');
+    const commentForm = document.createElement('form');
+    const usernameInput = document.createElement('input');
+    const commentInput = document.createElement('textarea');
+    const submitButton = document.createElement('button');
+
+    function displayComments() {
+        commentsContainer.innerHTML = '';
+        comments.forEach((comment, index) => {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `
+                <strong>${comment.username}</strong> - ${comment.comment} ( ${comment.timestamp} )
+            `;
+            commentsContainer.appendChild(commentElement);
+        });
+    }
+
+    function toggleComments() {
+        if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
+            commentsContainer.style.display = 'block';
+            commentForm.style.display = 'block';
+            displayComments();
+        } else {
+            commentsContainer.style.display = 'none';
+            commentForm.style.display = 'none';
+        }
+    }
+
+    usernameInput.type = 'text';
+    usernameInput.placeholder = 'Username';
+    usernameInput.required = true;
+
+    commentInput.placeholder = 'Write a comment...';
+    commentInput.required = true;
+
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add Comment';
+
+    commentForm.appendChild(usernameInput);
+    commentForm.appendChild(commentInput);
+    commentForm.appendChild(submitButton);
+    commentsContainer.appendChild(commentForm);
+
+    commentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const newComment = {
+            username: usernameInput.value,
+            comment: commentInput.value,
+            timestamp: new Date().toLocaleString()
+        };
+        comments.push(newComment);
+        displayComments();
+        usernameInput.value = '';
+        commentInput.value = '';
+    });
+}
+
+function toggleComments(comments) {
+    const commentsContainer = document.getElementById('commentsContainer');
+    const commentForm = commentsContainer.querySelector('form');
+    if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
+        commentsContainer.style.display = 'block';
+        commentForm.style.display = 'block';
+        displayComments(comments);
+    } else {
+        commentsContainer.style.display = 'none';
+        commentForm.style.display = 'none';
+    }
+}
+
+function displayComments(comments) {
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = '';
+    comments.forEach((comment, index) => {
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+        commentElement.innerHTML = `
+            <strong>${comment.username}</strong> - ${comment.comment} ( ${comment.timestamp} )
+        `;
+        commentsContainer.appendChild(commentElement);
+    });
 }
