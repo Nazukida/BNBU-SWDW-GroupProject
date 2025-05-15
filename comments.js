@@ -1,61 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const commentsContainer = document.getElementById('commentsContainer');
-    const showCommentsButton = document.getElementById('showCommentsButton');
-    const commentForm = document.createElement('form');
-    const usernameInput = document.createElement('input');
-    const commentInput = document.createElement('textarea');
-    const submitButton = document.createElement('button');
-    let comments = [];
+// 定义一个函数来初始化评论功能
+function initComments() {
+    // 获取评论容器元素
+    var commentsContainer = document.getElementById('commentsContainer');
+    // 获取查看评论按钮元素
+    var showCommentsButton = document.getElementById('showCommentsButton');
+    // 创建用户名输入框的 HTML 字符串
+    var usernameInputHtml = '<input type="text" placeholder="Username" required>';
+    // 创建评论输入文本域的 HTML 字符串
+    var commentInputHtml = '<textarea placeholder="Write a comment..." required></textarea>';
+    // 创建提交按钮的 HTML 字符串
+    var submitButtonHtml = '<button type="button" onclick="addComment()">Add Comment</button>';
+    // 初始化一个空的评论数组
+    var comments = [];
 
+    // 显示评论的函数
     function displayComments() {
-        commentsContainer.innerHTML = '';
-        comments.forEach((comment, index) => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
-                <strong>${comment.username}</strong> - ${comment.comment} ( ${comment.timestamp} )
-            `;
-            commentsContainer.appendChild(commentElement);
-        });
+        var commentHtml = '';
+        for (var i = 0; i < comments.length; i++) {
+            var comment = comments[i];
+            // 构建单条评论的 HTML 字符串
+            commentHtml += '<div class="comment">' +
+                '<strong>' + comment.username + '</strong> - ' + comment.comment + ' ( ' + comment.timestamp + ' )' +
+                '</div>';
+        }
+        // 将评论 HTML 字符串插入到评论容器中
+        commentsContainer.innerHTML = commentHtml + usernameInputHtml + commentInputHtml + submitButtonHtml;
     }
 
+    // 切换评论显示状态的函数
     function toggleComments() {
-        if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
-            commentsContainer.style.display = 'block';
-            commentForm.style.display = 'block';
+        var containerContent = commentsContainer.innerHTML;
+        if (containerContent === '') {
+            displayComments();
         } else {
-            commentsContainer.style.display = 'none';
-            commentForm.style.display = 'none';
+            commentsContainer.innerHTML = '';
         }
     }
 
-    showCommentsButton.addEventListener('click', toggleComments);
+    // 添加评论的函数
+    window.addComment = function () {
+        var usernameInput = document.querySelector('#commentsContainer input');
+        var commentInput = document.querySelector('#commentsContainer textarea');
+        var username = usernameInput.value;
+        var commentText = commentInput.value;
+        if (username && commentText) {
+            // 创建一个新的评论对象，包含用户名、评论内容和时间戳
+            var newComment = {
+                username: username,
+                comment: commentText,
+                timestamp: new Date().toLocaleString()
+            };
+            // 将新评论添加到评论数组中
+            comments.push(newComment);
+            // 调用 displayComments 函数显示更新后的评论列表
+            displayComments();
+            // 清空用户名输入框
+            usernameInput.value = '';
+            // 清空评论输入文本域
+            commentInput.value = '';
+        }
+    };
 
-    usernameInput.type = 'text';
-    usernameInput.placeholder = 'Username';
-    usernameInput.required = true;
+    // 为查看评论按钮添加内联点击事件处理程序
+    showCommentsButton.onclick = toggleComments;
+}
 
-    commentInput.placeholder = 'Write a comment...';
-    commentInput.required = true;
-
-    submitButton.type = 'submit';
-    submitButton.textContent = 'Add Comment';
-
-    commentForm.appendChild(usernameInput);
-    commentForm.appendChild(commentInput);
-    commentForm.appendChild(submitButton);
-    commentsContainer.appendChild(commentForm);
-
-    commentForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const newComment = {
-            username: usernameInput.value,
-            comment: commentInput.value,
-            timestamp: new Date().toLocaleString()
-        };
-        comments.push(newComment);
-        displayComments();
-        usernameInput.value = '';
-        commentInput.value = '';
-    });
-});
+// 在页面加载完成后调用 initComments 函数
+document.addEventListener('DOMContentLoaded', initComments);
