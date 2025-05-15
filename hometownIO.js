@@ -1,5 +1,3 @@
-// hometownIO.js
-
 function updateCityDisplay() {
     const selectElement = document.getElementById('hometown');
     const selectedValue = selectElement.value;
@@ -93,11 +91,36 @@ function showHometownInfo() {
 
 function initializeComments(comments) {
     const commentsContainer = document.getElementById('commentsContainer');
+    const showCommentsButton = document.getElementById('showCommentsButton');
+
+    // 创建评论输入表单
     const commentForm = document.createElement('form');
     const usernameInput = document.createElement('input');
     const commentInput = document.createElement('textarea');
     const submitButton = document.createElement('button');
 
+    // 设置用户名输入框
+    usernameInput.type = 'text';
+    usernameInput.placeholder = 'Username';
+    usernameInput.required = true;
+
+    // 设置评论输入框
+    commentInput.placeholder = 'Write a comment...';
+    commentInput.required = true;
+
+    // 设置提交按钮
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add Comment';
+
+    // 将输入框和按钮添加到表单中
+    commentForm.appendChild(usernameInput);
+    commentForm.appendChild(commentInput);
+    commentForm.appendChild(submitButton);
+
+    // 将表单添加到评论容器中
+    commentsContainer.appendChild(commentForm);
+
+    // 显示评论的函数
     function displayComments() {
         commentsContainer.innerHTML = '';
         comments.forEach((comment, index) => {
@@ -108,34 +131,23 @@ function initializeComments(comments) {
             `;
             commentsContainer.appendChild(commentElement);
         });
+        commentsContainer.appendChild(commentForm); // 确保表单在评论下方
     }
 
+    // 切换评论显示状态的函数
     function toggleComments() {
         if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
             commentsContainer.style.display = 'block';
-            commentForm.style.display = 'block';
             displayComments();
         } else {
             commentsContainer.style.display = 'none';
-            commentForm.style.display = 'none';
         }
     }
 
-    usernameInput.type = 'text';
-    usernameInput.placeholder = 'Username';
-    usernameInput.required = true;
+    // 为查看评论按钮添加点击事件
+    showCommentsButton.addEventListener('click', toggleComments);
 
-    commentInput.placeholder = 'Write a comment...';
-    commentInput.required = true;
-
-    submitButton.type = 'submit';
-    submitButton.textContent = 'Add Comment';
-
-    commentForm.appendChild(usernameInput);
-    commentForm.appendChild(commentInput);
-    commentForm.appendChild(submitButton);
-    commentsContainer.appendChild(commentForm);
-
+    // 为表单添加提交事件
     commentForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const newComment = {
@@ -148,30 +160,7 @@ function initializeComments(comments) {
         usernameInput.value = '';
         commentInput.value = '';
     });
-}
 
-function toggleComments(comments) {
-    const commentsContainer = document.getElementById('commentsContainer');
-    const commentForm = commentsContainer.querySelector('form');
-    if (commentsContainer.style.display === 'none' || commentsContainer.style.display === '') {
-        commentsContainer.style.display = 'block';
-        commentForm.style.display = 'block';
-        displayComments(comments);
-    } else {
-        commentsContainer.style.display = 'none';
-        commentForm.style.display = 'none';
-    }
-}
-
-function displayComments(comments) {
-    const commentsContainer = document.getElementById('commentsContainer');
-    commentsContainer.innerHTML = '';
-    comments.forEach((comment, index) => {
-        const commentElement = document.createElement('div');
-        commentElement.className = 'comment';
-        commentElement.innerHTML = `
-            <strong>${comment.username}</strong> - ${comment.comment} ( ${comment.timestamp} )
-        `;
-        commentsContainer.appendChild(commentElement);
-    });
+    // 初始隐藏评论容器
+    commentsContainer.style.display = 'none';
 }
